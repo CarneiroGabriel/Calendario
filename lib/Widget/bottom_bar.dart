@@ -1,3 +1,4 @@
+import 'package:agendamento/pages/add.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/calendar.dart';
@@ -5,10 +6,14 @@ import '../pages/homePage.dart';
 import '../pages/list_events.dart';
 
 FloatingActionButtonCustom(BuildContext context) {
+
   return FloatingActionButton(
     //Floating action button on Scaffold
     backgroundColor: Color(0XFFD5D5D5FF),
-    onPressed: () {},
+    onPressed: () {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => AddPage()));
+    },
     child: Icon(Icons.add, size: 35, color: Colors.black,), //icon inside button
   );
 }
@@ -74,4 +79,3 @@ BottomNavBar(BuildContext context) {
   )
   );
 }
-

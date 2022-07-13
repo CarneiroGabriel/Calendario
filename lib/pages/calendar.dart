@@ -2,6 +2,8 @@ import 'package:agendamento/Widget/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import 'add.dart';
+
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
 
@@ -53,7 +55,15 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButtonCustom(context),
+      floatingActionButton: FloatingActionButton(
+        //Floating action button on Scaffold
+        backgroundColor: Color(0XFFD5D5D5FF),
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddPage(eventDay: _focusedDay)));
+        },
+        child: Icon(Icons.add, size: 35, color: Colors.black,), //icon inside button
+      ),
       floatingActionButtonLocation: CenterActionButton(),
       bottomNavigationBar: BottomNavBar(context),
     );
