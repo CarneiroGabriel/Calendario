@@ -22,40 +22,43 @@ class _CalendarPageState extends State<CalendarPage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              TableCalendar(
-                locale: "pt_BR",
-                firstDay: DateTime.utc(2010, 10, 16),
-                lastDay: DateTime.utc(2030, 3, 14),
-                focusedDay: _focusedDay,
-                calendarFormat: _calendarFormat,
-                selectedDayPredicate: (day) {
-                  return isSameDay(_selectedDay, day);
-                },
-                onDaySelected: (selectedDay, focusedDay) {
-                  setState(() {
-                    _selectedDay = selectedDay;
-                    _focusedDay = focusedDay; // update `_focusedDay` here as well
-                  });
-                },
-                onFormatChanged: (format) {
-                  if (_calendarFormat != format) {
-                    // Call `setState()` when updating calendar format
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: Column(
+              children: [
+                TableCalendar(
+                  locale: "pt_BR",
+                  firstDay: DateTime.utc(2010, 10, 16),
+                  lastDay: DateTime.utc(2030, 3, 14),
+                  focusedDay: _focusedDay,
+                  calendarFormat: _calendarFormat,
+                  selectedDayPredicate: (day) {
+                    return isSameDay(_selectedDay, day);
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
                     setState(() {
-                      _calendarFormat = format;
+                      _selectedDay = selectedDay;
+                      _focusedDay = focusedDay; // update `_focusedDay` here as well
                     });
-                  }
-                },
-                headerStyle: HeaderStyle(
-                  formatButtonVisible: false
+                  },
+                  onFormatChanged: (format) {
+                    if (_calendarFormat != format) {
+                      // Call `setState()` when updating calendar format
+                      setState(() {
+                        _calendarFormat = format;
+                      });
+                    }
+                  },
+                  headerStyle: HeaderStyle(
+                    formatButtonVisible: false
+                  ),
+                  onPageChanged: (focusedDay) {
+                    // No need to call `setState()` here
+                    _focusedDay = focusedDay;
+                  },
                 ),
-                onPageChanged: (focusedDay) {
-                  // No need to call `setState()` here
-                  _focusedDay = focusedDay;
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

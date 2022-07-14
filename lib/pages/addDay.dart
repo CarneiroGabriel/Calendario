@@ -1,4 +1,4 @@
-import 'package:agendamento/pages/calendar.dart';
+import 'package:agendamento/pages/addEvent.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -58,7 +58,10 @@ class _AddPageState extends State<AddPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 48),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AddEventPage(_focusedDay)));
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
