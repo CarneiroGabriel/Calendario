@@ -1,4 +1,4 @@
-import 'package:agendamento/pages/add.dart';
+import 'package:agendamento/pages/addDay.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/calendar.dart';

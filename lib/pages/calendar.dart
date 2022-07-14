@@ -2,7 +2,7 @@ import 'package:agendamento/Widget/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import 'add.dart';
+import 'addDay.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
@@ -25,6 +25,7 @@ class _CalendarPageState extends State<CalendarPage> {
           child: Column(
             children: [
               TableCalendar(
+                locale: "pt_BR",
                 firstDay: DateTime.utc(2010, 10, 16),
                 lastDay: DateTime.utc(2030, 3, 14),
                 focusedDay: _focusedDay,
@@ -46,6 +47,9 @@ class _CalendarPageState extends State<CalendarPage> {
                     });
                   }
                 },
+                headerStyle: HeaderStyle(
+                  formatButtonVisible: false
+                ),
                 onPageChanged: (focusedDay) {
                   // No need to call `setState()` here
                   _focusedDay = focusedDay;
@@ -55,15 +59,7 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        //Floating action button on Scaffold
-        backgroundColor: Color(0XFFD5D5D5FF),
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddPage(eventDay: _focusedDay)));
-        },
-        child: Icon(Icons.add, size: 35, color: Colors.black,), //icon inside button
-      ),
+      floatingActionButton: FloatingActionButtonCustom(context),
       floatingActionButtonLocation: CenterActionButton(),
       bottomNavigationBar: BottomNavBar(context),
     );
