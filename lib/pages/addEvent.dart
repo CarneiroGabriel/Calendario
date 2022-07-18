@@ -5,25 +5,26 @@ import 'package:time_picker_sheet/widget/time_picker.dart';
 class AddEventPage extends StatefulWidget {
   AddEventPage(this.eventDay, {Key? key}) : super(key: key);
   DateTime eventDay;
+  String diaHora = "";
+
 
   @override
   State<AddEventPage> createState() => _AddEventPageState();
 }
 
 class _AddEventPageState extends State<AddEventPage> {
-  
   @override
   Widget build(BuildContext context) {
     final title = TextEditingController();
+    final subTitle = TextEditingController();
+    String resultado = widget.eventDay.toString();
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         toolbarHeight: 32,
-        iconTheme: IconThemeData(
-            color: Colors.black
-        ),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -39,13 +40,17 @@ class _AddEventPageState extends State<AddEventPage> {
               ),
             ),
             TextField(
-              controller: title,
+              controller: subTitle,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Subtitulo do Evento',
               ),
             ),
-            ElevatedButton.icon(onPressed: _openTimePickerSheet, icon: Icon(Icons.access_time), label: Text("Hora Inicial"))
+            ElevatedButton.icon(
+                onPressed: _openTimePickerSheet,
+                icon: Icon(Icons.access_time),
+                label: Text("Hora do Evento")),
+            Text(widget.diaHora)
           ],
         ),
       ),
@@ -53,19 +58,35 @@ class _AddEventPageState extends State<AddEventPage> {
   }
 
   void _openTimePickerSheet() async {
-    final result = await TimePicker.show<DateTime?>(
+    var result = await TimePicker.show<DateTime?>(
       context: context,
       sheet: TimePickerSheet(
-        sheetTitle: 'Select meeting schedule',
-        minuteTitle: 'Minute',
-        hourTitle: 'Hour',
+        sheetTitle: 'Selecione a Hora Inicial',
+        minuteTitle: 'Minuto',
+        hourTitle: 'Hora',
         saveButtonText: 'Save',
+        minuteInterval: 1,
+        saveButtonColor: Colors.blueAccent,
+        sheetTitleStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 26,
+        ),
+        minuteTitleStyle: TextStyle(
+          color: Colors.blueAccent,
+        ),
+        hourTitleStyle: TextStyle(
+          color: Colors.blueAccent,
+        ),
+        wheelNumberSelectedStyle: TextStyle(
+          color: Colors.blueAccent,
+        ),
       ),
     );
 
     if (result != null) {
       setState(() {
-        widget.eventDay = result;
+        result = new DateTime(widget.eventDay.year,widget.eventDay.month, widget.eventDay.day, result!.hour, result!.minute  );
+        widget.diaHora = result.toString();
       });
     }
   }
