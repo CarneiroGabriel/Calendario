@@ -8,6 +8,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool showFab = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -35,14 +36,15 @@ class HomePage extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(40, 58),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.horizontal(right: Radius.circular(16))
-                      )
-                    ),
+                        minimumSize: Size(40, 58),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.horizontal(
+                                right: Radius.circular(16)))),
                     onPressed: () {},
-                    child: Icon(Icons.search,
-                    size: 32,),
+                    child: Icon(
+                      Icons.search,
+                      size: 32,
+                    ),
                   ),
                 ),
               ],
@@ -50,7 +52,10 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButtonCustom(context),
+      floatingActionButton: Visibility(
+        child: FloatingActionButtonCustom(context),
+        visible: !showFab,
+      ),
       floatingActionButtonLocation: CenterActionButton(),
       bottomNavigationBar: BottomNavBar(context),
     );

@@ -6,6 +6,8 @@ class AddEventPage extends StatefulWidget {
   AddEventPage(this.eventDay, {Key? key}) : super(key: key);
   DateTime eventDay;
   String diaHora = "";
+  String diaHorafinal = "";
+
 
 
   @override
@@ -17,7 +19,6 @@ class _AddEventPageState extends State<AddEventPage> {
   Widget build(BuildContext context) {
     final title = TextEditingController();
     final subTitle = TextEditingController();
-    String resultado = widget.eventDay.toString();
 
     return Scaffold(
       appBar: AppBar(
@@ -47,24 +48,25 @@ class _AddEventPageState extends State<AddEventPage> {
               ),
             ),
             ElevatedButton.icon(
-                onPressed: _openTimePickerSheet,
+                onPressed: inicialTimePickerSheet,
                 icon: Icon(Icons.access_time),
                 label: Text("Hora do Evento")),
-            Text(widget.diaHora)
+            Text(widget.diaHora),
+            Text(widget.diaHorafinal)
           ],
         ),
       ),
     );
   }
 
-  void _openTimePickerSheet() async {
-    var result = await TimePicker.show<DateTime?>(
+  void inicialTimePickerSheet() async {
+    var inicialTime = await TimePicker.show<DateTime?>(
       context: context,
       sheet: TimePickerSheet(
         sheetTitle: 'Selecione a Hora Inicial',
         minuteTitle: 'Minuto',
         hourTitle: 'Hora',
-        saveButtonText: 'Save',
+        saveButtonText: 'Salvar',
         minuteInterval: 1,
         saveButtonColor: Colors.blueAccent,
         sheetTitleStyle: TextStyle(
@@ -83,10 +85,52 @@ class _AddEventPageState extends State<AddEventPage> {
       ),
     );
 
-    if (result != null) {
+    if (inicialTime != null) {
       setState(() {
-        result = new DateTime(widget.eventDay.year,widget.eventDay.month, widget.eventDay.day, result!.hour, result!.minute  );
-        widget.diaHora = result.toString();
+        widget.eventDay = DateTime(
+            widget.eventDay.year, widget.eventDay.month, widget.eventDay.day,
+            inicialTime.hour, inicialTime.minute);
+        widget.diaHora = widget.eventDay.toString();
+      });
+      finalTimePickerSheet();
+    }
+  }
+
+  void finalTimePickerSheet() async {
+    var finalTime = await TimePicker.show<DateTime?>(
+      context: context,
+      sheet: TimePickerSheet(
+        sheetTitle: 'Selecione a Hora Final',
+        minuteTitle: 'Minuto',
+        hourTitle: 'Hora',
+        saveButtonText: 'Salvar',
+        minuteInterval: 1,
+        initialDateTime: widget.eventDay,
+        minHour: widget.eventDay.hour,
+        minMinute: widget.eventDay.minute,
+        saveButtonColor: Colors.blueAccent,
+        sheetTitleStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 26,
+        ),
+        minuteTitleStyle: TextStyle(
+          color: Colors.blueAccent,
+        ),
+        hourTitleStyle: TextStyle(
+          color: Colors.blueAccent,
+        ),
+        wheelNumberSelectedStyle: TextStyle(
+          color: Colors.blueAccent,
+        ),
+      ),
+    );
+
+    if (finalTime != null) {
+      setState(() {
+        finalTime = DateTime(
+            widget.eventDay.year, widget.eventDay.month, widget.eventDay.day,
+            finalTime!.hour, finalTime!.minute);
+        widget.diaHorafinal = finalTime.toString();
       });
     }
   }
